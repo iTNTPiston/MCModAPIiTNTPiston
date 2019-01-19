@@ -15,6 +15,31 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemUtil {
 
+    public static void writeItemStackToNBTWithIntSize(@Nonnull ItemStack stack, @Nonnull NBTTagCompound tag) {
+        if (stack == null || tag == null)
+            throw new IllegalArgumentException();
+        NBTTagCompound wrapped = new NBTTagCompound();
+        stack.writeToNBT(wrapped);
+        tag.setTag("wrappedItemStack", wrapped);
+        tag.setInteger("size", stack.stackSize);
+    }
+
+    public static ItemStack readItemStackFromNBTWithIntSize(@Nonnull NBTTagCompound tag) {
+        if (tag == null)
+            throw new IllegalArgumentException();
+        if (tag.hasKey("size") && tag.hasKey("wrappedItemStack")) {
+            NBTTagCompound wrapped = tag.getCompoundTag("wrappedItemStack");
+            if (wrapped != null) {
+                ItemStack stack = ItemStack.loadItemStackFromNBT(wrapped);
+                if (stack != null) {
+                    stack.stackSize = tag.getInteger("size");
+                    return stack;
+                }
+            }
+        }
+        return null;
+    }
+
     public static boolean isItemInOreDict(ItemStack stack, String oreDictEntry) {
         List<ItemStack> ores = OreDictionary.getOres(oreDictEntry);
         for (ItemStack ore : ores) {

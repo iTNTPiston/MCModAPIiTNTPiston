@@ -29,8 +29,10 @@ public class RegBlock extends SuperRegister implements IBlockRegisterFactory {
     @Override
     public IBlockRegister of(Block block, String name) {
         APIiTNTPiston.log.info("[Block Registry] Block >> " + name);
-
-        return new Reg(block, name);
+        IBlockRegister reg = new Reg(block, name);
+        if (block instanceof BlockAPIiTNTPiston)
+            ((BlockAPIiTNTPiston) block).preBlockRegister(reg);
+        return reg;
     }
 
     private static void injectBehavior(List<IBlockBehavior> behaviors, Block b) throws Exception {
