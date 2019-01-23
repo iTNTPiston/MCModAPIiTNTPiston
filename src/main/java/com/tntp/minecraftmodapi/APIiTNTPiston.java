@@ -13,6 +13,8 @@ import com.tntp.minecraftmodapi.item.IItemRegisterFactory;
 import com.tntp.minecraftmodapi.item.RegItem;
 import com.tntp.minecraftmodapi.network.IMessageRegisterFactory;
 import com.tntp.minecraftmodapi.network.RegMessage;
+import com.tntp.minecraftmodapi.recipe.IRecipeRegisterFactory;
+import com.tntp.minecraftmodapi.recipe.RegRecipe;
 import com.tntp.minecraftmodapi.tileentity.ITileEntityRegisterFactory;
 import com.tntp.minecraftmodapi.tileentity.RegTileEntity;
 
@@ -20,7 +22,7 @@ import com.tntp.minecraftmodapi.tileentity.RegTileEntity;
  * The iTNTPison API
  *
  */
-public interface APIiTNTPiston {
+public abstract class APIiTNTPiston {
     public static Logger log = LogManager.getLogger("iTNTPiston API");
 
     public static IBlockRegisterFactory newBlockRegister() {
@@ -45,6 +47,10 @@ public interface APIiTNTPiston {
 
     public static ICompatRegisterFactory newCompatRegister() {
         return new RegCompat();
+    }
+
+    public static IRecipeRegisterFactory newRecipeRegister() {
+        return new RegRecipe();
     }
 
 }
